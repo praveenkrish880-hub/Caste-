@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ವೇದ, ಪುರಾಣ ಮತ್ತು ಭಗವದ್ಗೀತೆಯಲ್ಲಿ ಜಾತಿ</title>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Kannada&family=Noto+Sans+Kannada:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --saffron: #FF6B00;
+    --deep: #1a0a00;
+    --gold: #D4A017;
+    --cream: #FFF8EE;
+    --text: #2d1a00;
+    --accent: #8B1A00;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--deep);
+    color: var(--cream);
+    font-family: 'Noto Sans Kannada', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .bg-pattern {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(255,107,0,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(212,160,23,0.10) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(139,26,0,0.08) 0%, transparent 70%);
+  }
+
+  .om-symbol {
+    position: fixed; top: -60px; right: -40px;
+    font-size: 300px; color: rgba(255,107,0,0.04);
+    font-family: 'Tiro Kannada', serif; z-index: 0;
+    user-select: none;
+  }
+
+  .container {
+    position: relative; z-index: 1;
+    max-width: 760px; margin: 0 auto;
+    padding: 40px 20px 60px;
+  }
+
+  header {
+    text-align: center;
+    border-bottom: 1px solid rgba(212,160,23,0.3);
+    padding-bottom: 30px; margin-bottom: 36px;
+  }
+
+  .om { font-size: 42px; color: var(--saffron); margin-bottom: 10px; }
+
+  h1 {
+    font-family: 'Tiro Kannada', serif;
+    font-size: clamp(18px, 4vw, 26px);
+    color: var(--gold);
+    line-height: 1.5;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  .subtitle {
+    margin-top: 8px;
+    font-size: 13px;
+    color: rgba(255,248,238,0.5);
+    letter-spacing: 0.05em;
+  }
+
+  /* Audio Player */
+  .audio-bar {
+    background: rgba(255,107,0,0.08);
+    border: 1px solid rgba(255,107,0,0.25);
+    border-radius: 50px;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 36px;
+    backdrop-filter: blur(8px);
+  }
+
+  .play-btn {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--saffron);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.15s, background 0.15s;
+    box-shadow: 0 0 16px rgba(255,107,0,0.4);
+  }
+  .play-btn:hover { transform: scale(1.08); background: #ff8c2a; }
+  .play-btn svg { fill: white; width: 18px; height: 18px; }
+
+  .audio-info { flex: 1; min-width: 0; }
+  .audio-title { font-size: 13px; color: var(--gold); font-weight: 600; }
+  .audio-status {
+    font-size: 11px; color: rgba(255,248,238,0.5);
+    margin-top: 2px;
+  }
+
+  .progress-wrap {
+    flex: 2; height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px; overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--saffron), var(--gold));
+    border-radius: 2px;
+    transition: width 0.3s linear;
+  }
+
+  .speed-btn {
+    background: rgba(255,107,0,0.15);
+    border: 1px solid rgba(255,107,0,0.3);
+    color: var(--saffron); border-radius: 20px;
+    padding: 4px 10px; font-size: 11px;
+    cursor: pointer; white-space: nowrap;
+    font-family: 'Noto Sans Kannada', sans-serif;
+    transition: background 0.15s;
+  }
+  .speed-btn:hover { background: rgba(255,107,0,0.25); }
+
+  /* Content */
+  .section {
+    margin-bottom: 28px;
+    background: rgba(255,248,238,0.03);
+    border: 1px solid rgba(212,160,23,0.15);
+    border-radius: 12px;
+    padding: 22px 24px;
+    border-left: 3px solid var(--saffron);
+  }
+
+  .section-title {
+    font-family: 'Tiro Kannada', serif;
+    font-size: 17px; color: var(--saffron);
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title span { font-size: 20px; }
+
+  .section p {
+    font-size: 15px;
+    line-height: 2;
+    color: rgba(255,248,238,0.88);
+    margin-bottom: 10px;
+  }
+
+  .verse-box {
+    background: rgba(212,160,23,0.08);
+    border: 1px solid rgba(212,160,23,0.25);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-family: 'Tiro Kannada', serif;
+    font-size: 14px;
+    color: var(--gold);
+    line-height: 1.9;
+    font-style: italic;
+  }
+
+  .highlight {
+    color: var(--saffron); font-weight: 600;
+  }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    margin-top: 14px; font-size: 13px;
+  }
+  th {
+    background: rgba(255,107,0,0.15);
+    color: var(--gold); padding: 10px 14px;
+    text-align: left; font-weight: 600;
+  }
+  td {
+    padding: 10px 14px;
+    color: rgba(255,248,238,0.8);
+    border-bottom: 1px solid rgba(255,248,238,0.05);
+  }
+  tr:hover td { background: rgba(255,107,0,0.04); }
+
+  .conclusion {
+    background: rgba(255,107,0,0.06);
+    border: 1px solid rgba(255,107,0,0.2);
+    border-radius: 12px;
+    padding: 22px 24px;
+    text-align: center;
+  }
+  .conclusion p {
+    font-family: 'Tiro Kannada', serif;
+    font-size: 16px; color: var(--cream);
+    line-height: 2;
+  }
+
+  .lang-note {
+    text-align: center; font-size: 11px;
+    color: rgba(255,248,238,0.3); margin-top: 30px;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-pattern"></div>
+<div class="om-symbol">ॐ</div>
+
+<div class="container">
+
+  <header>
+    <div class="om">ॐ</div>
+    <h1>ವೇದ, ಪುರಾಣ ಮತ್ತು ಭಗವದ್ಗೀತೆಯಲ್ಲಿ<br>ಜಾತಿ ವ್ಯವಸ್ಥೆಯ ಬಗ್ಗೆ ಏನು ಹೇಳಿದೆ?</h1>
+    <div class="subtitle">Veda · Purana · Bhagavad Gita — Kannada</div>
+  </header>
+
+  <!-- Audio Player -->
+  <div class="audio-bar">
+    <button class="play-btn" id="playBtn" onclick="toggleSpeech()">
+      <svg viewBox="0 0 24 24" id="playIcon"><polygon points="5,3 19,12 5,21"/></svg>
+    </button>
+    <div class="audio-info">
+      <div class="audio-title">ಕನ್ನಡದಲ್ಲಿ ಓದಿ ಕೇಳಿ</div>
+      <div class="audio-status" id="statusTxt">ಪ್ಲೇ ಒತ್ತಿ ಆಡಿಯೋ ಪ್ರಾರಂಭಿಸಿ</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <button class="speed-btn" onclick="cycleSpeed()">
+      <span id="speedLabel">1×</span>
+    </button>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section">
+    <div class="section-title"><span>📖</span> ಋಗ್ವೇದ</div>
+    <p>
+      ವೇದಗಳಲ್ಲಿ ಜಾತಿಯ ಉಲ್ಲೇಖ <span class="highlight">ಋಗ್ವೇದದ ಪುರುಷ ಸೂಕ್ತ (೧೦.೯೦)</span>ದಲ್ಲಿ ಕಾಣಬಹುದು. ಈ ಸ್ತೋತ್ರದಲ್ಲಿ ವಿಶ್ವದ ಮೂಲ ಪುರುಷನ ದೇಹದ ಭಾಗಗಳಿಂದ ನಾಲ್ಕು ವರ್ಣಗಳು ಉಂಟಾದವು ಎಂದು ಹೇಳಲಾಗಿದೆ:
+    </p>
+    <div class="verse-box">
+      ಬ್ರಾಹ್ಮಣ — ಬಾಯಿಂದ | ಕ್ಷತ್ರಿಯ — ಭುಜದಿಂದ<br>
+      ವೈಶ್ಯ — ತೊಡೆಯಿಂದ | ಶೂದ್ರ — ಪಾದದಿಂದ
+    </div>
+    <p>
+      ಆದರೆ ಅನೇಕ ವಿದ್ವಾಂಸರ ಪ್ರಕಾರ, ಇದು <span class="highlight">ಕಾರ್ಯ ಆಧಾರಿತ ವಿಭಜನೆ</span> ಮಾತ್ರ — ಹುಟ್ಟಿನ ಆಧಾರದ ಜಾತಿ ವ್ಯವಸ್ಥೆ ಅಲ್ಲ.
+    </p>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section">
+    <div class="section-title"><span>📖</span> ಭಗವದ್ಗೀತೆ — ಅಧ್ಯಾಯ ೪, ಶ್ಲೋಕ ೧೩</div>
+    <p>ಶ್ರೀಕೃಷ್ಣನು ಸ್ವತಃ ಹೇಳುತ್ತಾನೆ:</p>
+    <div class="verse-box">
+      "ಚಾತುರ್ವರ್ಣ್ಯಂ ಮಯಾ ಸೃಷ್ಟಂ ಗುಣಕರ್ಮ ವಿಭಾಗಶಃ"<br><br>
+      ಅರ್ಥ: "ನಾಲ್ಕು ವರ್ಣಗಳನ್ನು ನಾನು <span class="highlight">ಗುಣ (ಸ್ವಭಾವ) ಮತ್ತು ಕರ್ಮ (ಕಾರ್ಯ)</span>ಗಳ ಆಧಾರದ ಮೇಲೆ ಸೃಷ್ಟಿಸಿದ್ದೇನೆ."
+    </div>
+    <p>
+      ಈ ಶ್ಲೋಕ ಅತ್ಯಂತ ಮಹತ್ವದ್ದು — ಕೃಷ್ಣ ವರ್ಣವನ್ನು <span class="highlight">ಜನ್ಮ ಆಧಾರದ ಮೇಲೆ ಅಲ್ಲ, ಗುಣ ಮತ್ತು ಕ್ರಿಯೆಗಳ ಆಧಾರದ ಮೇಲೆ</span> ವಿಭಜಿಸಿದ್ದಾನೆ. ಸ್ವಾಮಿ ವಿವೇಕಾನಂದ ಮತ್ತು ಡಾ. ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್ ಇಬ್ಬರೂ ಇದನ್ನು ಯೋಗ್ಯತಾ ಆಧಾರಿತ ವ್ಯವಸ್ಥೆ ಎಂದು ವ್ಯಾಖ್ಯಾನಿಸಿದ್ದಾರೆ.
+    </p>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section">
+    <div class="section-title"><span>📖</span> ಪುರಾಣಗಳು</div>
+    <p>
+      ಭಾಗವತ ಪುರಾಣ ವರ್ಣಗಳನ್ನು ಉಲ್ಲೇಖಿಸಿದರೂ, ಅಲ್ಲಿ ಕೂಡ <span class="highlight">ಜನ್ಮವಲ್ಲ, ಗುಣ ನಿರ್ಧರಿಸುತ್ತದೆ</span> ಎಂದು ಹೇಳುವ ಶ್ಲೋಕಗಳಿವೆ. ಮನುಸ್ಮೃತಿ ಮತ್ತು ನಂತರದ ಸ್ಮೃತಿ ಗ್ರಂಥಗಳು ಕ್ರಮೇಣ ಜಾತಿಯನ್ನು ಹುಟ್ಟಿನ ಆಧಾರದ ಮೇಲೆ ಕಟ್ಟಿದ ವ್ಯವಸ್ಥೆಯಾಗಿ ರೂಪಿಸಿದವು — ಇದು ಮೂಲ ವೈದಿಕ ಚಿಂತನೆಯ ವಿಕೃತಿ ಎಂದು ಹಲವು ವಿದ್ವಾಂಸರು ಅಭಿಪ್ರಾಯ ಪಡುತ್ತಾರೆ.
+    </p>
+  </div>
+
+  <!-- Table -->
+  <div class="section">
+    <div class="section-title"><span>⚖️</span> ವರ್ಣ ಮತ್ತು ಜಾತಿ — ವ್ಯತ್ಯಾಸ</div>
+    <table>
+      <tr><th>ಪದ</th><th>ಅರ್ಥ</th></tr>
+      <tr><td><span class="highlight">ವರ್ಣ</span></td><td>ಗುಣ ಮತ್ತು ಕರ್ಮ ಆಧಾರಿತ ವಿಭಜನೆ — ವೇದ-ಗೀತೆಯ ಮೂಲ ಪರಿಕಲ್ಪನೆ</td></tr>
+      <tr><td><span class="highlight">ಜಾತಿ</span></td><td>ಹುಟ್ಟಿನ ಆಧಾರಿತ ವ್ಯವಸ್ಥೆ — ನಂತರದ ಸಾಮಾಜಿಕ ಬೆಳವಣಿಗೆ</td></tr>
+    </table>
+  </div>
+
+  <!-- Conclusion -->
+  <div class="conclusion">
+    <div class="section-title" style="justify-content:center;"><span>🔑</span> ತೀರ್ಮಾನ</div>
+    <p>
+      ಮೂಲ ವೇದ ಮತ್ತು ಭಗವದ್ಗೀತೆ <span class="highlight">ಗುಣ ಮತ್ತು ಕ್ರಿಯೆ</span>ಗಳ ಆಧಾರದ ಮೇಲೆ ವರ್ಣ ವ್ಯವಸ್ಥೆ ವಿವರಿಸುತ್ತದೆ.<br><br>
+      ಹುಟ್ಟಿನ ಆಧಾರದ ಕಠೋರ ಜಾತಿ ವ್ಯವಸ್ಥೆ ಒಂದು <span class="highlight">ನಂತರದ ಸಾಮಾಜಿಕ ವಿಕೃತಿ</span>.<br><br>
+      ಆದಿ ಶಂಕರಾಚಾರ್ಯ, ಕಬೀರ್, ಸ್ವಾಮಿ ವಿವೇಕಾನಂದ, ರಾಮಕೃಷ್ಣ ಪರಮಹಂಸ ಮೊದಲಾದ ಮಹಾ ಸಂತರು ಜಾತಿ ತಾರತಮ್ಯವನ್ನು ವಿರೋಧಿಸಿದ್ದಾರೆ.<br><br>
+      <strong style="color:var(--gold);">ಭಗವದ್ಗೀತೆ ಅಧ್ಯಾಯ ೧೮ರಲ್ಲಿ ಕೃಷ್ಣ ಹೇಳುತ್ತಾನೆ: ಆತ್ಮಕ್ಕೆ ಜಾತಿ ಇಲ್ಲ.</strong>
+    </p>
+  </div>
+
+  <div class="lang-note">ಈ ಪುಟ ಕನ್ನಡದಲ್ಲಿ ತಯಾರಿಸಲಾಗಿದೆ · Audio: Web Speech API (Kannada)</div>
+
+</div>
+
+<script>
+const fullText = `
+ಓಂ.
+
+ವೇದ, ಪುರಾಣ ಮತ್ತು ಭಗವದ್ಗೀತೆಯಲ್ಲಿ ಜಾತಿ ವ್ಯವಸ್ಥೆಯ ಬಗ್ಗೆ ಏನು ಹೇಳಿದೆ?
+
+ಮೊದಲನೆಯದಾಗಿ, ಋಗ್ವೇದ.
+
+ವೇದಗಳಲ್ಲಿ ಜಾತಿಯ ಉಲ್ಲೇಖ ಋಗ್ವೇದದ ಪುರುಷ ಸೂಕ್ತದಲ್ಲಿ ಕಾಣಬಹುದು. ಈ ಸ್ತೋತ್ರದಲ್ಲಿ ವಿಶ್ವದ ಮೂಲ ಪುರುಷನ ದೇಹದ ಭಾಗಗಳಿಂದ ನಾಲ್ಕು ವರ್ಣಗಳು ಉಂಟಾದವು ಎಂದು ಹೇಳಲಾಗಿದೆ. ಬ್ರಾಹ್ಮಣರು ಬಾಯಿಂದ, ಕ್ಷತ್ರಿಯರು ಭುಜದಿಂದ, ವೈಶ್ಯರು ತೊಡೆಯಿಂದ, ಮತ್ತು ಶೂದ್ರರು ಪಾದದಿಂದ ಬಂದರು ಎಂದು ಹೇಳಲಾಗಿದೆ. ಆದರೆ ಅನೇಕ ವಿದ್ವಾಂಸರ ಪ್ರಕಾರ, ಇದು ಕಾರ್ಯ ಆಧಾರಿತ ವಿಭಜನೆ ಮಾತ್ರ, ಹುಟ್ಟಿನ ಆಧಾರದ ಜಾತಿ ವ್ಯವಸ್ಥೆ ಅಲ್ಲ.
+
+ಎರಡನೆಯದಾಗಿ, ಭಗವದ್ಗೀತೆ.
+
+ಭಗವದ್ಗೀತೆ ನಾಲ್ಕನೇ ಅಧ್ಯಾಯ, ಹದಿಮೂರನೇ ಶ್ಲೋಕದಲ್ಲಿ ಶ್ರೀಕೃಷ್ಣನು ಹೇಳುತ್ತಾನೆ: ಚಾತುರ್ವರ್ಣ್ಯಂ ಮಯಾ ಸೃಷ್ಟಂ ಗುಣಕರ್ಮ ವಿಭಾಗಶಃ. ಅಂದರೆ, ನಾಲ್ಕು ವರ್ಣಗಳನ್ನು ನಾನು ಗುಣ ಮತ್ತು ಕರ್ಮಗಳ ಆಧಾರದ ಮೇಲೆ ಸೃಷ್ಟಿಸಿದ್ದೇನೆ. ಕೃಷ್ಣ ವರ್ಣವನ್ನು ಜನ್ಮ ಆಧಾರದ ಮೇಲೆ ಅಲ್ಲ, ಗುಣ ಮತ್ತು ಕ್ರಿಯೆಗಳ ಆಧಾರದ ಮೇಲೆ ವಿಭಜಿಸಿದ್ದಾನೆ. ಸ್ವಾಮಿ ವಿವೇಕಾನಂದ ಮತ್ತು ಡಾಕ್ಟರ್ ಬಿ ಆರ್ ಅಂಬೇಡ್ಕರ್ ಇಬ್ಬರೂ ಇದನ್ನು ಯೋಗ್ಯತಾ ಆಧಾರಿತ ವ್ಯವಸ್ಥೆ ಎಂದು ವ್ಯಾಖ್ಯಾನಿಸಿದ್ದಾರೆ.
+
+ಮೂರನೆಯದಾಗಿ, ಪುರಾಣಗಳು.
+
+ಭಾಗವತ ಪುರಾಣ ವರ್ಣಗಳನ್ನು ಉಲ್ಲೇಖಿಸಿದರೂ, ಅಲ್ಲಿ ಕೂಡ ಜನ್ಮವಲ್ಲ, ಗುಣ ನಿರ್ಧರಿಸುತ್ತದೆ ಎಂದು ಹೇಳುವ ಶ್ಲೋಕಗಳಿವೆ. ಮನುಸ್ಮೃತಿ ಮತ್ತು ನಂತರದ ಸ್ಮೃತಿ ಗ್ರಂಥಗಳು ಕ್ರಮೇಣ ಜಾತಿಯನ್ನು ಹುಟ್ಟಿನ ಆಧಾರದ ಮೇಲೆ ಕಟ್ಟಿದ ವ್ಯವಸ್ಥೆಯಾಗಿ ರೂಪಿಸಿದವು.
+
+ಮುಖ್ಯ ವ್ಯತ್ಯಾಸ: ವರ್ಣ ಎಂದರೆ ಗುಣ ಮತ್ತು ಕರ್ಮ ಆಧಾರಿತ ವಿಭಜನೆ, ಇದು ವೇದ ಮತ್ತು ಗೀತೆಯ ಮೂಲ ಪರಿಕಲ್ಪನೆ. ಜಾತಿ ಎಂದರೆ ಹುಟ್ಟಿನ ಆಧಾರಿತ ವ್ಯವಸ್ಥೆ, ಇದು ನಂತರದ ಸಾಮಾಜಿಕ ಬೆಳವಣಿಗೆ.
+
+ತೀರ್ಮಾನ: ಮೂಲ ವೇದ ಮತ್ತು ಭಗವದ್ಗೀತೆ ಗುಣ ಮತ್ತು ಕ್ರಿಯೆಗಳ ಆಧಾರದ ಮೇಲೆ ವರ್ಣ ವ್ಯವಸ್ಥೆ ವಿವರಿಸುತ್ತದೆ. ಹುಟ್ಟಿನ ಆಧಾರದ ಕಠೋರ ಜಾತಿ ವ್ಯವಸ್ಥೆ ಒಂದು ನಂತರದ ಸಾಮಾಜಿಕ ವಿಕೃತಿ. ಆದಿ ಶಂಕರಾಚಾರ್ಯ, ಕಬೀರ್, ಸ್ವಾಮಿ ವಿವೇಕಾನಂದ ಮೊದಲಾದ ಮಹಾ ಸಂತರು ಜಾತಿ ತಾರತಮ್ಯವನ್ನು ವಿರೋಧಿಸಿದ್ದಾರೆ. ಭಗವದ್ಗೀತೆ ಹದಿನೆಂಟನೇ ಅಧ್ಯಾಯದಲ್ಲಿ ಕೃಷ್ಣ ಹೇಳುತ್ತಾನೆ: ಆತ್ಮಕ್ಕೆ ಜಾತಿ ಇಲ್ಲ.
+`;
+
+let utterance = null;
+let speaking = false;
+let paused = false;
+let speed = 1;
+const speeds = [0.75, 1, 1.25, 1.5];
+let speedIndex = 1;
+
+// Simulate progress
+let progressInterval = null;
+let progressVal = 0;
+
+function toggleSpeech() {
+  if (!('speechSynthesis' in window)) {
+    document.getElementById('statusTxt').textContent = 'ನಿಮ್ಮ ಬ್ರೌಸರ್ TTS ಬೆಂಬಲಿಸುವುದಿಲ್ಲ';
+    return;
+  }
+
+  if (speaking && !paused) {
+    window.speechSynthesis.pause();
+    paused = true;
+    document.getElementById('statusTxt').textContent = 'ವಿರಾಮ...';
+    setIcon('play');
+    clearInterval(progressInterval);
+    return;
+  }
+
+  if (paused) {
+    window.speechSynthesis.resume();
+    paused = false;
+    document.getElementById('statusTxt').textContent = 'ಓದುತ್ತಿದೆ...';
+    setIcon('pause');
+    startProgress();
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+  utterance = new SpeechSynthesisUtterance(fullText);
+
+  // Try to find Kannada voice
+  const voices = window.speechSynthesis.getVoices();
+  const knVoice = voices.find(v => v.lang.startsWith('kn')) ||
+                  voices.find(v => v.lang.startsWith('hi')) ||
+                  null;
+  if (knVoice) utterance.voice = knVoice;
+  utterance.lang = 'kn-IN';
+  utterance.rate = speeds[speedIndex];
+
+  utterance.onstart = () => {
+    speaking = true; paused = false;
+    document.getElementById('statusTxt').textContent = 'ಓದುತ್ತಿದೆ...';
+    setIcon('pause');
+    progressVal = 0;
+    startProgress();
+  };
+
+  utterance.onend = () => {
+    speaking = false; paused = false;
+    document.getElementById('statusTxt').textContent = 'ಮುಗಿಯಿತು ✓';
+    setIcon('play');
+    document.getElementById('progressBar').style.width = '100%';
+    clearInterval(progressInterval);
+    setTimeout(() => {
+      document.getElementById('progressBar').style.width = '0%';
+      document.getElementById('statusTxt').textContent = 'ಮತ್ತೆ ಕೇಳಲು ಪ್ಲೇ ಒತ್ತಿ';
+    }, 2000);
+  };
+
+  utterance.onerror = () => {
+    document.getElementById('statusTxt').textContent = 'ದೋಷ ಸಂಭವಿಸಿದೆ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.';
+    setIcon('play'); clearInterval(progressInterval);
+  };
+
+  window.speechSynthesis.speak(utterance);
+}
+
+function startProgress() {
+  clearInterval(progressInterval);
+  const estimatedDuration = fullText.length / (speeds[speedIndex] * 8);
+  const step = 100 / (estimatedDuration * 10);
+  progressInterval = setInterval(() => {
+    progressVal = Math.min(progressVal + step, 95);
+    document.getElementById('progressBar').style.width = progressVal + '%';
+  }, 100);
+}
+
+function cycleSpeed() {
+  speedIndex = (speedIndex + 1) % speeds.length;
+  speed = speeds[speedIndex];
+  document.getElementById('speedLabel').textContent = speed + '×';
+  if (speaking && utterance) {
+    const wasPlaying = !paused;
+    window.speechSynthesis.cancel();
+    speaking = false; paused = false;
+    clearInterval(progressInterval);
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('statusTxt').textContent = 'ವೇಗ ಬದಲಿಸಲಾಗಿದೆ. ಮತ್ತೆ ಪ್ಲೇ ಒತ್ತಿ.';
+    setIcon('play');
+  }
+}
+
+function setIcon(type) {
+  const svg = document.getElementById('playIcon');
+  if (type === 'pause') {
+    svg.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+  } else {
+    svg.innerHTML = '<polygon points="5,3 19,12 5,21"/>';
+  }
+}
+
+// Load voices async
+window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+</script>
+</body>
+</html>
